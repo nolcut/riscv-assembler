@@ -186,7 +186,7 @@ class InstructionParser:
 	@staticmethod
 	def JUMP(tk : str, line_num : int, code: list) -> int:
 		if tk.isdigit():
-			return int(tk) * 4
+			return int(tk)
 		try:
 			index, skip_lines = code.index(tk + ":"), 0
 		except:
