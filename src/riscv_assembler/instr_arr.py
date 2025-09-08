@@ -56,8 +56,12 @@ class _I(Instruction):
 		instr = super().check_instr_valid(instr, I_instr)
 		opcode, f3 = 0, 1
 
+		immediate = _I.immediate(imm)
+		if instr == "srai":
+			immediate = "0100000" + immediate[7:]
+
 		return "".join([
-			_I.immediate(imm),
+			immediate,
 			super().reg(rs1),
 			instr_map[instr][f3],
 			super().reg(rd),
@@ -199,9 +203,9 @@ class InstructionParser:
 				[1 for i in range(line_num, index) if not code[i] or code[i][-1] == ":"]
 			)
 		else: # backwards search
-			skip_lines = -1 * sum(
+			skip_lines = -1 * (sum(
 				[1 for i in range(index, line_num) if not code[i] or code[i][-1] == ":"]
-			)
+			))
 
 		return (index - line_num - skip_lines) * 4 * pos
 
@@ -380,8 +384,8 @@ I_instr = [
 	"ld", "lbu", "lhu",
 	"lwu", "fence", "fence.i", 
 	"slli", "slti", "sltiu", 
-	"xori", "slri", "srai",
-	"ori", "andi", "addiw",
+	"slri", "srai",  "srli",
+	"ori", "andi", "addiw", "xori"
 	"slliw", "srliw", "sraiw", 
 	"jalr", "ecall", "ebreak", 
 	"CSRRW", "CSRRS","CSRRC", 
