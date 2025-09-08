@@ -191,11 +191,8 @@ class InstructionParser:
 	def JUMP(tk : str, line_num : int, code: list) -> int:
 		if tk.isdigit():
 			return int(tk)
-		try:
-			index, skip_lines = code.index(tk + ":"), 0
-		except:
-			raise Exception('''Address not found for {}! Provided assembly code could 
-				be faulty, branch is expressed but not found in code.'''.format(tk))
+
+		index, skip_lines = code.index(tk + ":"), 0
 
 		pos = 1
 		if index > line_num: # forward search:
